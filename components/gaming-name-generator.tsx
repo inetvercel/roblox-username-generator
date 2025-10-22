@@ -579,7 +579,7 @@ export default function GamingNameGenerator() {
 
         {/* Footer */}
         <div className="text-center mt-12 py-6 border-t border-gray-200">
-          <p className="text-gray-500 text-sm mb-2">© 2024 Roblox Username Generator - Free AI-Powered Username Creator</p>
+          <p className="text-gray-500 text-sm mb-2">Roblox Username Generator - Free AI-Powered Username Creator</p>
           <p className="text-gray-400 text-xs">Generate creative and unique usernames for Roblox and other gaming platforms</p>
         </div>
       </div>
