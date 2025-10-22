@@ -279,13 +279,6 @@ export default function GamingNameGenerator() {
   return (
     <div className="bg-white text-gray-900 p-4 sm:p-6 md:p-8 max-w-full overflow-hidden min-h-screen" ref={contentRef}>
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 mb-3 drop-shadow-sm">
-            <span className="text-red-600">Roblox</span> Username Generator
-          </h1>
-        </div>
-
         <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-4 sm:p-6 md:p-8">
           <div className="space-y-6">
             <div>
@@ -495,12 +488,6 @@ export default function GamingNameGenerator() {
             )}
           </div>
         )}
-        </div>
-        
-        {/* Footer */}
-        <div className="text-center mt-12 py-6 border-t border-gray-200">
-          <p className="text-gray-500 text-sm mb-2">Roblox Username Generator - Free AI-Powered Username Creator</p>
-          <p className="text-gray-400 text-xs">Generate creative and unique usernames for Roblox and other gaming platforms</p>
         </div>
       </div>
       <Toaster />
