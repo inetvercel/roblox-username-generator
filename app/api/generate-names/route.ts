@@ -70,7 +70,6 @@ export async function POST(req: Request) {
       model: openai("gpt-4o-mini"),
       prompt: prompt,
       temperature: 1.2,
-      maxTokens: 300,
     })
 
     const names = text
