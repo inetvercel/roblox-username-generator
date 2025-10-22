@@ -284,7 +284,6 @@ export default function GamingNameGenerator() {
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 mb-3 drop-shadow-sm">
             <span className="text-red-600">Roblox</span> Username Generator
           </h1>
-          <p className="text-gray-600 text-base sm:text-lg">Create unique and creative usernames for Roblox!</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-4 sm:p-6 md:p-8">
