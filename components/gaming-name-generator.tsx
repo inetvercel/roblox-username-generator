@@ -12,10 +12,29 @@ import { Star, Copy, Save, RefreshCw, Trash2 } from "lucide-react"
 import { generateNamesWithAI, checkAvailability } from "@/lib/nameGenerator"
 
 export default function GamingNameGenerator() {
+  // Cool example usernames to show immediately
+  const exampleUsernames = [
+    "xShadowKingx",
+    "ILegendI",
+    "CrystalVibe",
+    "NeonWave",
+    "DarkPhoenix",
+    "StormBringer",
+    "FrostByte",
+    "BlazeMaster",
+    "CosmicAce",
+    "ThunderStrike",
+    "NightHunter",
+    "SilverWolf",
+    "DragonLord",
+    "EpicGamer_YT",
+    "ProWizard",
+  ]
+
   const [keyword, setKeyword] = useState("")
-  const [nameType, setNameType] = useState("default")
+  const [nameType, setNameType] = useState("cool")
   const [nameLength, setNameLength] = useState("varied")
-  const [generatedNames, setGeneratedNames] = useState<string[]>([])
+  const [generatedNames, setGeneratedNames] = useState<string[]>(exampleUsernames)
   const [savedNames, setSavedNames] = useState<string[]>([])
   const [selectedName, setSelectedName] = useState("")
   const [platform, setPlatform] = useState("")
@@ -32,7 +51,8 @@ export default function GamingNameGenerator() {
       setSavedNames(JSON.parse(saved))
     }
 
-    generateInitialNames()
+    // Don't generate initial names - we already have example usernames
+    // generateInitialNames()
 
     // Add event listener for postMessage
     window.addEventListener("message", handlePostMessage)
@@ -77,8 +97,8 @@ export default function GamingNameGenerator() {
   }
 
   const generateRandomNames = async (count: number) => {
-    const randomKeywords = ["epic", "shadow", "crystal", "storm", "neon", "cosmic"]
-    const randomTypes = ["default", "funny", "aggressive", "futuristic", "fantasy"]
+    const randomKeywords = ["epic", "shadow", "crystal", "storm", "neon", "cosmic", "legend", "fire", "ice", "wolf", "dragon", "king", "pro"]
+    const randomTypes = ["cool", "funny", "tryhard", "aesthetic", "edgy", "og", "anime", "gaming"]
     const randomLengths = ["short", "medium", "long", "varied"]
 
     const keyword = randomKeywords[Math.floor(Math.random() * randomKeywords.length)]
@@ -102,7 +122,7 @@ export default function GamingNameGenerator() {
         setGeneratedNames(names)
         setSelectedName("")
         setAvailability(null)
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error generating names:", error)
         toast({
           title: "Error",
@@ -257,30 +277,59 @@ export default function GamingNameGenerator() {
   // end iframe auto height
 
   return (
-    <div className="bg-white text-gray-900 p-4 sm:p-6 md:p-8 max-w-full overflow-hidden" ref={contentRef}>
-      <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-8">
-        <div className="space-y-6">
-          <div>
-            <Label htmlFor="keyword" className="text-base sm:text-lg mb-2 block">
-              Enter your keyword
-            </Label>
-            <Input
-              id="keyword"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              placeholder="e.g., Dragon, Ninja, Shadow"
-              className="bg-gray-100 text-gray-900 border-gray-300 focus:border-yellow-500 focus:ring-yellow-500"
-            />
-          </div>
+    <div className="bg-white text-gray-900 p-4 sm:p-6 md:p-8 max-w-full overflow-hidden min-h-screen" ref={contentRef}>
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 mb-3 drop-shadow-sm">
+            <span className="text-red-600">Roblox</span> Username Generator
+          </h1>
+          <p className="text-gray-600 text-base sm:text-lg">Create unique and creative usernames for Roblox!</p>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-4 sm:p-6 md:p-8">
+          <div className="space-y-6">
+            <div>
+              <Label htmlFor="keyword" className="text-base sm:text-lg mb-2 block text-gray-900 font-semibold">
+                Enter your keyword
+              </Label>
+              <Input
+                id="keyword"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                placeholder="e.g., Dragon, Ninja, Shadow"
+                className="bg-gray-50 text-gray-900 border-gray-300 focus:border-red-500 focus:ring-red-500 placeholder:text-gray-400"
+              />
+            </div>
 
           <div>
-            <Label className="text-base sm:text-lg mb-2 block">Name Type</Label>
-            <RadioGroup value={nameType} onValueChange={setNameType} className="flex flex-wrap gap-2 sm:gap-4">
-              {["default", "funny", "aggressive", "futuristic", "fantasy"].map((type) => (
-                <div key={type} className="flex items-center space-x-2">
-                  <RadioGroupItem value={type} id={type} className="text-yellow-600" />
-                  <Label htmlFor={type} className="capitalize text-sm sm:text-base">
-                    {type}
+            <Label className="text-base sm:text-lg mb-2 block text-gray-900 font-semibold">Username Style</Label>
+            <RadioGroup value={nameType} onValueChange={setNameType} className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {[
+                { value: "cool", label: "😎 Cool", desc: "Stylish and trendy" },
+                { value: "funny", label: "😂 Funny", desc: "Humorous and meme" },
+                { value: "tryhard", label: "💪 Tryhard", desc: "Pro and competitive" },
+                { value: "aesthetic", label: "✨ Aesthetic", desc: "Soft and pretty" },
+                { value: "edgy", label: "🔥 Edgy", desc: "Dark and mysterious" },
+                { value: "og", label: "👑 OG/Classic", desc: "Old school style" },
+                { value: "anime", label: "⚡ Anime", desc: "Anime inspired" },
+                { value: "gaming", label: "🎮 Gaming", desc: "Gaming themed" },
+              ].map((type) => (
+                <div key={type.value} className="relative">
+                  <input
+                    type="radio"
+                    id={type.value}
+                    value={type.value}
+                    checked={nameType === type.value}
+                    onChange={(e) => setNameType(e.target.value)}
+                    className="peer hidden"
+                  />
+                  <Label
+                    htmlFor={type.value}
+                    className="flex flex-col p-3 rounded-lg border-2 border-gray-200 cursor-pointer transition-all hover:border-red-300 hover:bg-red-50 peer-checked:border-red-600 peer-checked:bg-red-50 peer-checked:shadow-md"
+                  >
+                    <span className="text-sm font-semibold text-gray-900">{type.label}</span>
+                    <span className="text-xs text-gray-500 mt-0.5">{type.desc}</span>
                   </Label>
                 </div>
               ))}
@@ -288,12 +337,12 @@ export default function GamingNameGenerator() {
           </div>
 
           <div>
-            <Label className="text-base sm:text-lg mb-2 block">Name Length</Label>
+            <Label className="text-base sm:text-lg mb-2 block text-gray-900 font-semibold">Username Length</Label>
             <RadioGroup value={nameLength} onValueChange={setNameLength} className="flex flex-wrap gap-2 sm:gap-4">
               {["short", "medium", "long", "varied"].map((length) => (
                 <div key={length} className="flex items-center space-x-2">
-                  <RadioGroupItem value={length} id={length} className="text-yellow-600" />
-                  <Label htmlFor={length} className="capitalize text-sm sm:text-base">
+                  <RadioGroupItem value={length} id={length} className="text-red-600 border-gray-300" />
+                  <Label htmlFor={length} className="capitalize text-sm sm:text-base text-gray-700 hover:text-gray-900 cursor-pointer">
                     {length}
                   </Label>
                 </div>
@@ -303,29 +352,37 @@ export default function GamingNameGenerator() {
 
           <Button
             onClick={handleGenerate}
-            className="w-full bg-yellow-600 text-white hover:bg-yellow-700 font-bold py-2 sm:py-3 text-base sm:text-lg"
+            className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 font-bold py-3 sm:py-4 text-base sm:text-lg rounded-lg shadow-lg hover:shadow-red-900/50 transition-all duration-200 transform hover:scale-[1.02]"
             disabled={isGenerating}
           >
-            {isGenerating ? "Generating Names..." : "Generate Gamer Tags"}
+            {isGenerating ? "Generating Usernames..." : "🎮 Generate Roblox Usernames"}
           </Button>
         </div>
 
         <div className="mt-6 sm:mt-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-yellow-600 mb-2 sm:mb-0">Your Gamer Tags:</h2>
+            <div className="mb-2 sm:mb-0">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
+                <span className="text-red-600">⚡</span> Your Roblox Usernames:
+              </h2>
+              {generatedNames.length === exampleUsernames.length && 
+               JSON.stringify(generatedNames) === JSON.stringify(exampleUsernames) && (
+                <p className="text-xs text-gray-500 mt-1">✨ Example usernames - Enter a keyword to generate your own!</p>
+              )}
+            </div>
             <div className="flex flex-wrap gap-2">
               <Button
                 onClick={() => setShowSavedNames(!showSavedNames)}
                 variant="outline"
-                className="text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white text-sm sm:text-base"
+                className="text-gray-700 border-gray-300 hover:bg-gray-100 hover:text-gray-900 text-sm sm:text-base"
               >
                 <Star size={16} className="mr-2" />
-                Saved Names ({savedNames.length})
+                Saved ({savedNames.length})
               </Button>
               <Button
                 onClick={generateInitialNames}
                 variant="outline"
-                className="text-yellow-600 border-yellow-600 hover:bg-yellow-600 hover:text-white text-sm sm:text-base"
+                className="text-red-600 border-red-600 hover:bg-red-600 hover:text-white text-sm sm:text-base"
                 disabled={isGenerating}
               >
                 <RefreshCw size={16} className="mr-2" />
@@ -334,18 +391,21 @@ export default function GamingNameGenerator() {
             </div>
           </div>
           {showSavedNames && savedNames.length > 0 && (
-            <div className="mb-4 p-4 bg-gray-100 rounded-lg">
-              <h3 className="text-lg font-semibold mb-2">Saved Names:</h3>
+            <div className="mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <h3 className="text-lg font-semibold mb-2 text-gray-900 flex items-center gap-2">
+                <Star size={18} className="text-red-600" fill="currentColor" />
+                Saved Usernames:
+              </h3>
               <ul className="space-y-2 max-h-40 sm:max-h-60 overflow-y-auto">
                 {savedNames.map((name, index) => (
-                  <li key={index} className="flex justify-between items-center">
-                    <span className="text-sm sm:text-base">{name}</span>
+                  <li key={index} className="flex justify-between items-center bg-white p-2 rounded border border-gray-200 hover:border-red-300 hover:shadow-sm transition-all">
+                    <span className="text-sm sm:text-base text-gray-900">{name}</span>
                     <div className="space-x-2">
                       <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => handleCopyName(name)}
-                        className="text-yellow-600 hover:text-yellow-700"
+                        className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                       >
                         <Copy size={16} />
                       </Button>
@@ -353,7 +413,7 @@ export default function GamingNameGenerator() {
                         variant="ghost"
                         size="sm"
                         onClick={() => handleRemoveSavedName(name)}
-                        className="text-red-600 hover:text-red-700"
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
                       >
                         <Trash2 size={16} />
                       </Button>
@@ -363,7 +423,7 @@ export default function GamingNameGenerator() {
               </ul>
               <Button
                 onClick={handleClearSavedNames}
-                className="w-full mt-4 bg-red-500 hover:bg-red-600 text-white text-sm sm:text-base"
+                className="w-full mt-4 bg-red-600 hover:bg-red-700 text-white text-sm sm:text-base"
               >
                 Clear All Saved Names
               </Button>
@@ -371,21 +431,22 @@ export default function GamingNameGenerator() {
           )}
           <div
             id="names-container"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 overflow-y-auto"
             style={{ maxHeight: "400px" }}
           >
             {generatedNames.map((name, index) => (
               <div
                 key={index}
-                className="bg-gray-100 p-3 sm:p-4 rounded-lg hover:bg-gray-200 transition-all flex justify-between items-center"
+                className="bg-white p-3 sm:p-4 rounded-lg border border-gray-200 hover:border-red-500 hover:shadow-lg hover:shadow-red-100 transition-all flex justify-between items-center group"
               >
-                <span className="text-sm sm:text-base lg:text-lg break-all">{name}</span>
+                <span className="text-sm sm:text-base lg:text-lg break-all text-gray-900 font-medium">{name}</span>
                 <div className="flex space-x-1 sm:space-x-2 ml-2 flex-shrink-0">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => handleCopyName(name)}
-                    className="text-yellow-600 border-yellow-600 hover:bg-yellow-600 hover:text-white p-1 sm:p-2"
+                    className="text-gray-600 border-gray-300 hover:bg-red-600 hover:text-white hover:border-red-600 p-1 sm:p-2 transition-all"
+                    title="Copy"
                   >
                     <Copy size={14} />
                   </Button>
@@ -393,7 +454,8 @@ export default function GamingNameGenerator() {
                     variant="outline"
                     size="sm"
                     onClick={() => handleSaveName(name)}
-                    className="text-green-600 border-green-600 hover:bg-green-600 hover:text-white p-1 sm:p-2"
+                    className="text-gray-600 border-gray-300 hover:bg-gray-700 hover:text-white hover:border-gray-700 p-1 sm:p-2 transition-all"
+                    title="Save"
                   >
                     <Save size={14} />
                   </Button>
@@ -404,12 +466,13 @@ export default function GamingNameGenerator() {
         </div>
 
         {selectedName && (
-          <div className="mt-6 sm:mt-8 space-y-4">
+          <div className="mt-6 sm:mt-8 space-y-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
             <Select value={platform} onValueChange={setPlatform}>
-              <SelectTrigger className="bg-gray-100 text-gray-900 border-gray-300">
-                <SelectValue placeholder="Select gaming platform" />
+              <SelectTrigger className="bg-white text-gray-900 border-gray-300">
+                <SelectValue placeholder="Select platform to check" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="roblox">Roblox</SelectItem>
                 <SelectItem value="xbox">Xbox</SelectItem>
                 <SelectItem value="playstation">PlayStation</SelectItem>
                 <SelectItem value="steam">Steam</SelectItem>
@@ -418,24 +481,109 @@ export default function GamingNameGenerator() {
 
             <Button
               onClick={handleCheckAvailability}
-              className="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 sm:py-3 text-base sm:text-lg"
+              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-2 sm:py-3 text-base sm:text-lg rounded-lg"
               disabled={!platform || isChecking}
             >
-              {isChecking ? "Checking the Gaming Realms..." : "Check Availability"}
+              {isChecking ? "Checking..." : "Check Availability"}
             </Button>
 
             {availability !== null && (
               <p
                 className={`text-center font-bold text-base sm:text-xl ${availability ? "text-green-600" : "text-red-600"}`}
               >
-                {availability ? "This name is available!" : "This name is already claimed by a legendary gamer."}
+                {availability ? "✓ This username is available!" : "✗ This username is already taken."}
               </p>
             )}
           </div>
         )}
+        </div>
+        
+        {/* SEO Content Section */}
+        <div className="mt-12 max-w-4xl mx-auto space-y-8">
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">How to Use Our Roblox Username Generator</h2>
+            <ol className="list-decimal list-inside space-y-2 text-gray-700">
+              <li><strong>Enter a keyword</strong> - Choose any word that represents you (Dragon, Shadow, Star, etc.)</li>
+              <li><strong>Pick a style</strong> - Select from 8 unique categories: Cool, Funny, Tryhard, Aesthetic, Edgy, OG/Classic, Anime, or Gaming</li>
+              <li><strong>Choose length</strong> - Short (3-8 chars), Medium (9-14 chars), Long (15-20 chars), or Varied</li>
+              <li><strong>Generate</strong> - Click the button and get 15 unique Roblox-ready usernames instantly!</li>
+              <li><strong>Copy & Save</strong> - Save your favorites and copy them with one click</li>
+            </ol>
+          </div>
+
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Why Use Our Roblox Username Generator?</h2>
+            <div className="grid md:grid-cols-2 gap-4 text-gray-700">
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">✨ AI-Powered</h3>
+                <p className="text-sm">Advanced AI creates unique, creative usernames that follow all Roblox rules</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">⚡ Instant Results</h3>
+                <p className="text-sm">Get 15 username ideas in seconds, not hours of brainstorming</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">🎨 8+ Styles</h3>
+                <p className="text-sm">From aesthetic to tryhard, find the perfect vibe for your Roblox identity</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">💯 100% Free</h3>
+                <p className="text-sm">Generate unlimited Roblox usernames completely free, no signup required</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Popular Roblox Username Styles</h2>
+            <div className="space-y-3 text-gray-700">
+              <div>
+                <h3 className="font-semibold text-gray-900">😎 Cool Usernames</h3>
+                <p className="text-sm">Stylish and trendy names that make you stand out: xShadowKingx, ILegendI, VibeWave</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900">✨ Aesthetic Usernames</h3>
+                <p className="text-sm">Soft, pretty names perfect for builders and roleplay: MoonGlow, StarDust, CloudySkies</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900">💪 Tryhard Usernames</h3>
+                <p className="text-sm">Competitive pro-level names for serious gamers: ProGamer_YT, TTV_Ninja, FN_Clutch</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900">😂 Funny Usernames</h3>
+                <p className="text-sm">Humorous and meme-worthy names: BruhMoment, SusAmogus, MemeLord69</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Roblox Username Rules & Tips</h2>
+            <div className="space-y-3 text-gray-700 text-sm">
+              <p><strong>Roblox Username Requirements:</strong></p>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>3-20 characters long</li>
+                <li>Letters, numbers, and underscores only (no spaces or special characters)</li>
+                <li>Cannot start or end with an underscore</li>
+                <li>No consecutive underscores</li>
+                <li>Must be appropriate and family-friendly</li>
+              </ul>
+              <p className="mt-4"><strong>Pro Tips:</strong></p>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Use numbers creatively (123, 007, 999) to make taken names available</li>
+                <li>Mix uppercase and lowercase for visual appeal (DragonKing vs dragonking)</li>
+                <li>Add prefixes/suffixes like _YT, _TTV, Pro, King, Master for uniqueness</li>
+                <li>Keep it memorable and easy to spell for friends to find you</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-12 py-6 border-t border-gray-200">
+          <p className="text-gray-500 text-sm mb-2">© 2024 Roblox Username Generator - Free AI-Powered Username Creator</p>
+          <p className="text-gray-400 text-xs">Generate creative and unique usernames for Roblox and other gaming platforms</p>
+        </div>
       </div>
       <Toaster />
     </div>
   )
 }
-
